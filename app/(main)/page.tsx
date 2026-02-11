@@ -21,7 +21,7 @@ export default async function HomePage() {
 
   return (
     <div>
-      <section className="relative overflow-hidden bg-gradient-to-b from-accent via-accent/50 to-background py-24 md:py-32 lg:py-40">
+      <section className="relative overflow-hidden bg-linear-to-b from-accent via-accent/50 to-background py-24 md:py-32 lg:py-40">
         <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
           <div className="absolute -top-1/2 -right-1/4 w-[800px] h-[800px] rounded-full bg-primary/5 blur-3xl" />
           <div className="absolute -bottom-1/2 -left-1/4 w-[600px] h-[600px] rounded-full bg-secondary/10 blur-3xl" />
@@ -307,7 +307,7 @@ export default async function HomePage() {
 
       <section className="py-20 md:py-28 bg-accent/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-secondary/90 to-secondary rounded-3xl p-8 md:p-12 lg:p-16">
+          <div className="bg-linear-to-r from-secondary/90 to-secondary rounded-3xl p-8 md:p-12 lg:p-16">
             <div className="max-w-3xl">
               <h2 className="text-3xl md:text-4xl font-bold font-heading mb-4 text-secondary-foreground">
                 Are You a Real Estate Agent?

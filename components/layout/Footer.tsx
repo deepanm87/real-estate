@@ -207,7 +207,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-border/50 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p supressHydrationWarning>
+          <p>
             © {new Date().getFullYear()} RealEstate. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
