@@ -26,6 +26,11 @@ export const user = defineType({
     }),
     defineField({
       name: "phone",
+      title: "Phone",
+      type: "string"
+    }),
+    defineField({
+      name: "photo",
       title: "Photo",
       type: "image",
       options: {

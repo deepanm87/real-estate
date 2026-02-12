@@ -1,7 +1,7 @@
 "use server"
 
 import { auth, clerkClient } from "@clerk/nextjs/server"
-import { client } from "@/sanity/lib/client"
+import { client } from "@/sanity/client"
 import { sanityFetch } from "@/sanity/lib/live"
 import {
   AGENT_BY_USER_ID_QUERY,
