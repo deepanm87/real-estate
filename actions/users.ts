@@ -6,6 +6,8 @@ import { client } from "@/sanity/client"
 import { sanityFetch } from "@/sanity/lib/live"
 import {
   AGENT_BY_USER_ID_QUERY,
+  AGENT_DASHBOARD_QUERY,
+  USER_CONTACT_QUERY,
   USER_EXISTS_QUERY,
   USER_SAVED_IDS_QUERY
 } from "@/sanity/queries"
@@ -77,6 +79,72 @@ export async function updateUserProfile(data: UserProfileData) {
       phone: data.phone
     })
     .commit()
+}
+
+/**
+ * Ensures an agent document exists for users with the agent plan.
+ * Creates one from their user profile if they have the Clerk "agent" plan but no Sanity agent.
+ */
+export async function ensureAgentForDashboard(userId: string): Promise<{
+  _id: string
+  name: string
+  onboardingComplete?: boolean | null
+} | null> {
+  const { data: agent } = await sanityFetch({
+    query: AGENT_DASHBOARD_QUERY,
+    params: { userId }
+  })
+
+  if (agent?._id) {
+    return {
+      _id: agent._id,
+      name: agent.name ?? "Agent",
+      onboardingComplete: agent.onboardingComplete
+    }
+  }
+
+  const clerk = await clerkClient()
+  const clerkUser = await clerk.users.getUser(userId)
+  const metadata = clerkUser.publicMetadata as Record<string, unknown> | undefined
+  const hasAgentPlan =
+    metadata?.plan === "agent" ||
+    metadata?.subscription === "agent" ||
+    metadata?.agent === true
+
+  if (!hasAgentPlan) {
+    return null
+  }
+
+  const { data: user } = await sanityFetch({
+    query: USER_CONTACT_QUERY,
+    params: { clerkId: userId }
+  })
+
+  const name =
+    user?.name ||
+    [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(" ") ||
+    "Agent"
+  const email =
+    user?.email ||
+    clerkUser.emailAddresses[0]?.emailAddress ||
+    "agent@example.com"
+  const phone = user?.phone || ""
+
+  const newAgent = await client.create({
+    _type: "agent",
+    userId,
+    name,
+    email,
+    phone,
+    onboardingComplete: true,
+    createdAt: new Date().toISOString()
+  })
+
+  return {
+    _id: newAgent._id,
+    name,
+    onboardingComplete: true
+  }
 }
 
 async function ensureOnboardingCompleteForSave(userId: string) {

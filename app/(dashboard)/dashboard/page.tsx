@@ -9,11 +9,11 @@ import {
 import type { Metadata } from "next"
 import Link from "next/link"
 import { redirect } from "next/navigation"
+import { ensureAgentForDashboard } from "@/actions/users"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { sanityFetch } from "@/sanity/lib/live"
 import {
-  AGENT_DASHBOARD_QUERY,
   DASHBOARD_LEADS_COUNT_QUERY,
   DASHBOARD_LISTINGS_COUNT_QUERY,
   DASHBOARD_NEW_LEADS_COUNT_QUERY,
@@ -27,10 +27,11 @@ export const metadata: Metadata = {
 export default async function DashboardPage() {
   const { userId } = await auth()
 
-  const { data: agent } = await sanityFetch({
-    query: AGENT_DASHBOARD_QUERY,
-    params: { userId }
-  })
+  if (!userId) {
+    redirect("/sign-in")
+  }
+
+  const agent = await ensureAgentForDashboard(userId)
 
   if (!agent?._id) {
     redirect("/pricing?reason=dashboard")
