@@ -27,6 +27,7 @@
     "dotenv": "^17.2.4",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
+    "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.563.0",
     "mapbox-gl": "^3.18.1",
     "next": "16.1.6",
