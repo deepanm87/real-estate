@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is the Home page of a real estate app.
 
-## Getting Started
+<img width="1885" height="1304" alt="Home page" src="https://github.com/user-attachments/assets/3b05d791-dfce-4ec5-a598-3d6f73b79e49" />
 
-First, run the development server:
+It has a browse properties page to view and filter properties list based on chosen filters.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<img width="1850" height="1212" alt="browse properties" src="https://github.com/user-attachments/assets/d08895a5-d898-4cfd-9edc-0ff22dcbddd3" />
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+It has a view property page to view the property's details with the option to contact the agent.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+<img width="1955" height="1215" alt="view property page" src="https://github.com/user-attachments/assets/7a7b802b-7c66-4b5b-a19e-5d2e9a46366c" />
 
-To learn more about Next.js, take a look at the following resources:
+It has the option to save properties and view them in a saved list.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+<img width="2547" height="1226" alt="saved listings" src="https://github.com/user-attachments/assets/a13812b7-087e-4540-b608-b07eadcd7ac4" />
 
-## Deploy on Vercel
+It has a profile page and an onboarding page for users to complete their registration.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Onboarding page
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<img width="1819" height="1223" alt="onboarding page" src="https://github.com/user-attachments/assets/af3f7ec3-7925-4857-b80a-97516cf7baa3" />
+
+
+Profile page
+<img width="1753" height="1181" alt="profile page" src="https://github.com/user-attachments/assets/b23f5f88-5b43-4a08-9a42-533b26f24a7a" />
+
+Users can then contact agent and save properties.
+
