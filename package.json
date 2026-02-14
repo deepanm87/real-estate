@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.37.3",
+    "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "^5.2.2",
     "@sanity/client": "^7.14.1",
     "@sanity/image-url": "^1.2.0",
@@ -35,6 +36,7 @@
     "react": "19.2.3",
     "react-day-picker": "^9.13.0",
     "react-dom": "19.2.3",
+    "react-dropzone": "^15.0.0",
     "react-hook-form": "^7.71.1",
     "react-map-gl": "^8.1.0",
     "react-resizable-panels": "^4.6.2",
