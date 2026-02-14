@@ -25,12 +25,16 @@ export default async function ProfilePage() {
     redirect("/onboarding")
   }
 
-  const userWithClerkId = {
-    ...user,
+  const userWithClerkId: User = {
+    _id: user._id,
     clerkId: userId,
     name: user.name ?? "",
-    email: user.email ?? ""
-  } as User
+    email: user.email ?? "",
+    phone: undefined,
+    photo: user.photo ?? undefined,
+    savedListings: user.savedListings ?? undefined,
+    createdAt: user.createdAt ?? new Date().toISOString()
+  }
 
   return (
     <div className="container max-w-2xl py-16">
