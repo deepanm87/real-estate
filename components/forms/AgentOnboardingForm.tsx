@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { isRedirectError } from "next/dist/client/components/redirect-error"
 import { useTransition } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, type Resolver } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import { completeAgentOnboarding } from "@/actions/agents"
@@ -34,7 +34,7 @@ export function AgentOnboardingForm() {
   const [isPending, startTransition] = useTransition()
 
   const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema as unknown as Parameters<typeof zodResolver>[0]) as unknown as Resolver<FormData>,
     defaultValues: {
       bio: "",
       phone: "",

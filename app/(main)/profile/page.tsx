@@ -32,7 +32,7 @@ export default async function ProfilePage() {
     email: user.email ?? "",
     phone: undefined,
     photo: user.photo ?? undefined,
-    savedListings: user.savedListings ?? undefined,
+    savedListings: undefined,
     createdAt: user.createdAt ?? new Date().toISOString()
   }
 

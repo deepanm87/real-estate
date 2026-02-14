@@ -48,7 +48,7 @@ export function AddressAutoComplete({
   className
 }: AddressAutoCompleteProps) {
   const [inputValue, setInputValue] = useState(value || "")
-  const [suggestions, setSuggestions] = useState<MapboxFeature[]>()
+  const [suggestions, setSuggestions] = useState<MapboxFeature[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [selectedAddress, setSelectedAddress] = useState<AddressResult | null>(null)

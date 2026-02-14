@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState, useTransition } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, type Resolver } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import { createListing, updateListing } from "@/actions/properties"
@@ -142,7 +142,7 @@ export function ListingForm({
   const [addressDisplayValue, setAddressDisplayValue] = useState(initialAddressValue)
 
   const form = useForm<FormDataInput, unknown, FormDataOutput>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema as unknown as Parameters<typeof zodResolver>[0]) as unknown as Resolver<FormDataInput, unknown, FormDataOutput>,
     defaultValues: {
       title: listing?.title || "",
       description: listing?.description || "",

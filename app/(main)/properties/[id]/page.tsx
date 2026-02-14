@@ -268,9 +268,9 @@ export default async function PropertyPage({
                       [
                         {
                           ...property,
-                          slug: property.slug?.current ?? id
+                          slug: (property as { slug?: { current?: string } }).slug?.current ?? id
                         }
-                      ] as Property[]
+                      ] as unknown as Property[]
                     }
                   />
                   </div>
@@ -282,7 +282,7 @@ export default async function PropertyPage({
           <div className="lg:col-span-1">
             <div className="sticky top-24">
               {property.agent && (
-                <AgentCard agent={property.agent as import("@/types").Agent}>
+                <AgentCard agent={property.agent as unknown as import("@/types").Agent}>
                   <ContactAgentButton 
                     propertyId={property._id}
                     agentId={property.agent._id}

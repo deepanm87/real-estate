@@ -209,7 +209,7 @@ export default async function PropertiesPage({
               <TabsContent value="list" className="mt-0">
                 {properties && properties.length > 0 ? (
                   <>
-                    <PropertyGrid properties={(properties ?? []) as Property[]} />
+                    <PropertyGrid properties={(properties ?? []) as unknown as Property[]} />
                     {totalPages > 1 && (
                       <nav
                         className="flex items-center justify-center gap-2 mt-10"
@@ -306,7 +306,7 @@ export default async function PropertiesPage({
 
               <TabsContent value="map" className="mt-0">
                 <div className="h-[600px] rounded-2xl overflow-hidden border border-border/50 shadow-warm">
-                  <DynamicMapView properties={(properties ?? []) as Property[]} />
+                  <DynamicMapView properties={(properties ?? []) as unknown as Property[]} />
                 </div>
               </TabsContent>
             </Tabs>

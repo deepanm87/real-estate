@@ -29,7 +29,7 @@ export default async function SavedListingsPage() {
       </div>
 
       {savedProperties && savedProperties.length > 0 ? (
-        <PropertyGrid properties={(savedProperties ?? []) as Property[]} showRemoveButton />
+        <PropertyGrid properties={(savedProperties ?? []) as unknown as Property[]} showRemoveButton />
       ) : (
         <EmptyState 
           icon={Heart}
