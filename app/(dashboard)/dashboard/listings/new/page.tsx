@@ -1,6 +1,18 @@
 import { ListingForm } from "@/components/forms/ListingForm"
+import type { Amenity } from "@/types"
 import { sanityFetch } from "@/sanity/lib/live"
 import { AMENITIES_QUERY } from "@/sanity/queries"
+
+function normalizeAmenities(
+  raw: Array<{ _id: string; value: string | null; label: string | null; icon: string | null }> | null
+): Amenity[] {
+  if (!raw) return []
+  return raw
+    .filter((a): a is { _id: string; value: string; label: string; icon: string | null } =>
+      a.value != null && a.label != null
+    )
+    .map((a) => ({ _id: a._id, value: a.value, label: a.label, icon: a.icon }))
+}
 
 export default async function NewListingPage() {
   const { data: amenities } = await sanityFetch({
@@ -16,7 +28,7 @@ export default async function NewListingPage() {
         </p>
       </div>
 
-      <ListingForm amenities={amenities} />
+      <ListingForm amenities={normalizeAmenities(amenities)} />
     </div>
   )
 }

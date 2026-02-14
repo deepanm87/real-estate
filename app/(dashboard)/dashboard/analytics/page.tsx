@@ -47,6 +47,10 @@ export default async function AnalyticsPage() {
     params: { userId }
   })
 
+  if (!agent) {
+    return null
+  }
+
   const [
     { data: totalListings },
     { data: activeListings },
@@ -98,9 +102,9 @@ export default async function AnalyticsPage() {
 
   const analyticsData: AnalyticsData = {
     listings: {
-      total: totalListings
-      active: activeListings
-      pending: pendingListings
+      total: totalListings,
+      active: activeListings,
+      pending: pendingListings,
       sold: soldListings
     },
     leads: {
@@ -110,10 +114,10 @@ export default async function AnalyticsPage() {
       closed: closedLeads
     },
     leadsByProperty: leadsByProperty.map(
-      (p: 
-        { title: string | null
-          leadCount: number
-        }) => ({
+      (p: {
+        title: string | null;
+        leadCount: number;
+      }) => ({
           name: 
             p.title && p.title.length > 20
               ? `${p.title.slice(0, 20)}...`

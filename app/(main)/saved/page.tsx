@@ -5,6 +5,7 @@ import { redirect } from "next/navigation"
 import { PropertyGrid } from "@/components/property/PropertyGrid"
 import { Button } from "@/components/ui/button"
 import { EmptyState } from "@/components/ui/empty-state"
+import type { Property } from "@/types"
 import { sanityFetch } from "@/sanity/lib/live"
 import { USER_SAVED_LISTINGS_QUERY } from "@/sanity/queries"
 
@@ -28,7 +29,7 @@ export default async function SavedListingsPage() {
       </div>
 
       {savedProperties && savedProperties.length > 0 ? (
-        <PropertyGrid properties={savedProperties} showRemoveButton />
+        <PropertyGrid properties={(savedProperties ?? []) as Property[]} showRemoveButton />
       ) : (
         <EmptyState 
           icon={Heart}

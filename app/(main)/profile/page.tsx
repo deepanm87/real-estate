@@ -5,6 +5,7 @@ import { redirect } from "next/navigation"
 import { ProfileForm } from "@/components/forms/ProfileForm"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import type { User } from "@/types"
 import { sanityFetch } from "@/sanity/lib/live"
 import { USER_PROFILE_QUERY } from "@/sanity/queries"
 
@@ -24,6 +25,13 @@ export default async function ProfilePage() {
     redirect("/onboarding")
   }
 
+  const userWithClerkId = {
+    ...user,
+    clerkId: userId,
+    name: user.name ?? "",
+    email: user.email ?? ""
+  } as User
+
   return (
     <div className="container max-w-2xl py-16">
       <h1 className="text-3xl font-bold mb-8">My Profile</h1>
@@ -34,7 +42,7 @@ export default async function ProfilePage() {
             <CardTitle>Profile Information</CardTitle>
           </CardHeader>
           <CardContent>
-            <ProfileForm user={user} />
+            <ProfileForm user={userWithClerkId} />
           </CardContent>
         </Card>
 

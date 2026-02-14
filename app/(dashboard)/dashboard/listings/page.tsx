@@ -28,8 +28,6 @@ import {
   AGENT_ID_BY_USER_QUERY,
   AGENT_LISTINGS_QUERY,
 } from "@/sanity/queries"
-import type { Property } from "@/types"
-
 export default async function ListingsPage() {
   const { userId } = await auth()
 
@@ -37,6 +35,10 @@ export default async function ListingsPage() {
     query: AGENT_ID_BY_USER_QUERY,
     params: { userId }
   })
+
+  if (!agent) {
+    return null
+  }
 
   const { data: listings } = await sanityFetch({
     query: AGENT_LISTINGS_QUERY,
@@ -88,14 +90,14 @@ export default async function ListingsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {listings.map((listing: Property) => (
+              {listings.map((listing) => (
                 <TableRow key={listing._id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
                       {listing.image?.asset ? (
                         <Image 
                           src={urlFor(listing.image).width(80).height(60).url()}
-                          alt={listing.title}
+                          alt={listing.title ?? "Listing"}
                           width={80}
                           height={60}
                           className="rounded object-cover"
@@ -110,25 +112,25 @@ export default async function ListingsPage() {
                           href={`/properties/${listing._id}`}
                           className="font-medium hover:underline"
                         >
-                          {listing.title}
+                          {listing.title ?? "Untitled"}
                         </Link>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell className="font-semibold">
-                    {formatPrice(listing.price)}
+                    {formatPrice(listing.price ?? 0)}
                   </TableCell>
                   <TableCell>
                     <ListingStatusSelect 
                       listingId={listing._id}
-                      currentStatus={listing.status}
+                      currentStatus={listing.status ?? "active"}
                     />
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {listing.bedrooms} beds • {listing.bathrooms} baths
+                    {listing.bedrooms ?? 0} beds • {listing.bathrooms ?? 0} baths
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {formatDate(listing.createdAt)}
+                    {listing.createdAt ? formatDate(listing.createdAt) : "—"}
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>

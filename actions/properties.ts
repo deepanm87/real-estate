@@ -122,7 +122,7 @@ export async function updateListing(
     params: { id: listingId }
   })
 
-  if (!listing || listing.agent._ref !== agent._id) {
+  if (!listing || listing.agent?._ref !== agent._id) {
     throw new Error("Unauthorized")
   }
 
@@ -174,7 +174,7 @@ export async function updateListingStatus(
     params: { id: listingId }
   })
 
-  if (!listing || listing.agent._ref !== agent._id) {
+  if (!listing || listing.agent?._ref !== agent._id) {
     throw new Error("Unauthorized")
   }
 
@@ -208,7 +208,7 @@ export async function deleteListing(listingId: string) {
     params: { id: listingId }
   })
 
-  if (!listing || listing.agent._ref !== agent._id) {
+  if (!listing || listing.agent?._ref !== agent._id) {
     throw new Error("Unauthorized")
   }
 

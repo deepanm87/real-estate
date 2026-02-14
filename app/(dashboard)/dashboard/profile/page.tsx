@@ -1,6 +1,8 @@
 import { auth } from "@clerk/nextjs/server"
+import { notFound } from "next/navigation"
 import { AgentProfileForm } from "@/components/forms/AgentProfileForm"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import type { Agent } from "@/types"
 import { sanityFetch } from "@/sanity/lib/live"
 import { AGENT_PROFILE_QUERY } from "@/sanity/queries"
 
@@ -11,6 +13,10 @@ export default async function AgentProfilePage() {
     query: AGENT_PROFILE_QUERY,
     params: { userId }
   })
+
+  if (!agent) {
+    notFound()
+  }
 
   return (
     <div className="max-w-2xl">
@@ -26,7 +32,7 @@ export default async function AgentProfilePage() {
           <CardTitle>Profile Information</CardTitle>
         </CardHeader>
         <CardContent>
-          <AgentProfileForm agent={agent} />
+          <AgentProfileForm agent={agent as unknown as Agent} />
         </CardContent>
       </Card>
     </div>

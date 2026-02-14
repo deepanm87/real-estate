@@ -17,8 +17,6 @@ import {
   AGENT_ID_BY_USER_QUERY,
   AGENT_LEADS_QUERY
 } from "@/sanity/queries"
-import type { Lead } from "@/types"
-
 export default async function LeadsPage() {
   const { userId } = await auth()
 
@@ -26,6 +24,10 @@ export default async function LeadsPage() {
     query: AGENT_ID_BY_USER_QUERY,
     params: { userId }
   })
+
+  if (!agent) {
+    return null
+  }
 
   const { data: leads } = await sanityFetch({
     query: AGENT_LEADS_QUERY,
@@ -62,10 +64,10 @@ export default async function LeadsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {leads.map((lead: Lead) => (
+              {leads.map((lead) => (
                 <TableRow key={lead._id}>
                   <TableCell>
-                    <div className="font-medium">{lead.buyerName}</div>
+                    <div className="font-medium">{lead.buyerName ?? "—"}</div>
                   </TableCell>
                   <TableCell>
                     <div className="space-y-1">
@@ -73,7 +75,7 @@ export default async function LeadsPage() {
                         href={`mailto:${lead.buyerEmail}`}
                         className="text-sm text-primary hover:underline block"
                       >
-                        {lead.buyerEmail}
+                        {lead.buyerEmail ?? "—"}
                       </a>
                       {lead.buyerPhone && (
                         <a
@@ -95,13 +97,13 @@ export default async function LeadsPage() {
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <LeadStatusSelect 
+                    <LeadStatusSelect
                       leadId={lead._id}
-                      currentStatus={lead.status}
+                      currentStatus={lead.status ?? "new"}
                     />
                   </TableCell>
                   <TableCell className="text-muted-foreground text-sm">
-                    {formatDate(lead.createdAt)}
+                    {lead.createdAt ? formatDate(lead.createdAt) : "—"}
                   </TableCell>
                 </TableRow>
               ))}

@@ -105,7 +105,7 @@ export function AnalyticsDashboard({ data }: Props) {
             title="Total Listings"
             value={data.listings.total}
             icon={Home}
-            color="primray"
+            color="primary"
           />
           <KPICard 
             title="Active"

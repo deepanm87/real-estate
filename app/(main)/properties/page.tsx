@@ -14,6 +14,7 @@ import { PropertyGrid } from "@/components/property/PropertyGrid"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import type { Amenity, Property } from "@/types"
 import { sanityFetch } from "@/sanity/lib/live"
 import {
   AMENITIES_QUERY,
@@ -27,6 +28,17 @@ export const metadata: Metadata = {
 }
 
 const ITEMS_PER_PAGE = 12
+
+function normalizeAmenities(
+  raw: Array<{ _id: string; value: string | null; label: string | null; icon: string | null }> | null
+): Amenity[] {
+  if (!raw) return []
+  return raw
+    .filter((a): a is { _id: string; value: string; label: string; icon: string | null } =>
+      a.value != null && a.label != null
+    )
+    .map((a) => ({ _id: a._id, value: a.value, label: a.label, icon: a.icon }))
+}
 
 interface SearchParams {
   minPrice?: string
@@ -156,7 +168,7 @@ export default async function PropertiesPage({
               <Suspense
                 fallback={<Skeleton className="h-[500px] w-full rounded-2xl" />}
               >
-                <FilterSidebar amenities={amenities || []} />
+                <FilterSidebar amenities={normalizeAmenities(amenities)} />
               </Suspense>
             </div>
           </aside>
@@ -197,7 +209,7 @@ export default async function PropertiesPage({
               <TabsContent value="list" className="mt-0">
                 {properties && properties.length > 0 ? (
                   <>
-                    <PropertyGrid properties={properties} />
+                    <PropertyGrid properties={(properties ?? []) as Property[]} />
                     {totalPages > 1 && (
                       <nav
                         className="flex items-center justify-center gap-2 mt-10"
@@ -294,7 +306,7 @@ export default async function PropertiesPage({
 
               <TabsContent value="map" className="mt-0">
                 <div className="h-[600px] rounded-2xl overflow-hidden border border-border/50 shadow-warm">
-                  <DynamicMapView properties={properties || []} />
+                  <DynamicMapView properties={(properties ?? []) as Property[]} />
                 </div>
               </TabsContent>
             </Tabs>

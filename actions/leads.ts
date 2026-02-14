@@ -130,7 +130,7 @@ export async function updateLeadStatus(
     params: { leadId }
   })
 
-  if (!lead || lead.agent._ref !== agent._id) {
+  if (!lead || lead.agent?._ref !== agent._id) {
     throw new Error("Unauthorized")
   }
 

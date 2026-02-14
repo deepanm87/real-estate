@@ -11,6 +11,7 @@ import Link from "next/link"
 import { PropertyGrid } from "@/components/property/PropertyGrid"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import type { Property } from "@/types"
 import { sanityFetch } from "@/sanity/lib/live"
 import { FEATURED_PROPERTIES_QUERY } from "@/sanity/queries"
 
@@ -115,7 +116,7 @@ export default async function HomePage() {
           </div>
 
           {featuredProperties && featuredProperties.length > 0 ? (
-            <PropertyGrid properties={featuredProperties} />
+            <PropertyGrid properties={featuredProperties as unknown as Property[]} />
           ) : (
             <div className="text-center py-16 bg-accent/50 rounded-2xl border border-border/50">
               <Home 

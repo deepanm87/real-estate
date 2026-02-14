@@ -20,6 +20,7 @@ import { SharePropertyButton } from "@/components/property/SharePropertyButton"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { StatBadge } from "@/components/ui/stat-badge"
+import type { Property, SanityImage } from "@/types"
 import { sanityFetch } from "@/sanity/lib/live"
 import { PROPERTY_DETAIL_QUERY } from "@/sanity/queries"
 
@@ -42,7 +43,7 @@ export async function generateMetadata({
     style: "currency",
     currency: "USD",
     maximumFractionDigits: 0
-  }).format(property.price)
+  }).format(property.price ?? 0)
 
   return {
     title: `${property.title} - ${price}`,
@@ -77,8 +78,8 @@ export default async function PropertyPage({
     }).format(price)
   }
 
-  const statusLabel = 
-    property.status !== "active"
+  const statusLabel =
+    property.status && property.status !== "active"
       ? property.status.charAt(0).toUpperCase() + property.status.slice(1)
       : null
 
@@ -111,9 +112,22 @@ export default async function PropertyPage({
       <div className="container py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            <ImageGallery 
-              images={property.images || []}
-              title={property.title}
+            <ImageGallery
+              images={
+                (property.images
+                  ?.filter(
+                    (img) => img.asset?._id != null && img.asset?.url != null
+                  )
+                  .map((img) => ({
+                    asset: {
+                      _id: img.asset!._id,
+                      url: img.asset!.url as string,
+                      metadata: img.asset?.metadata
+                    },
+                    alt: img.alt ?? undefined
+                  })) ?? []) as SanityImage[]
+              }
+              title={property.title ?? ""}
             />
 
             <div className="bg-background rounded-2xl border border-border/50 p-6 shadow-warm">
@@ -121,12 +135,12 @@ export default async function PropertyPage({
                 <div>
                   <div className="flex items-center gap-3 mb-2">
                     <h1 className="text-3xl md:text-4xl font-bold font-heading tabular-nums">
-                      {formatPrice(property.price)}
+                      {formatPrice(property.price ?? 0)}
                     </h1>
                     {statusLabel && (
                       <Badge
                         variant={
-                          property.status === "sold" ? "destructive" : "muted"
+                          property.status === "sold" ? "destructive" : "secondary"
                         }
                       >
                         {statusLabel}
@@ -139,9 +153,9 @@ export default async function PropertyPage({
                 </div>
                 <div className="flex gap-2">
                   {userId && <SavePropertyButton propertyId={property._id} />}
-                  <SharePropertyButton 
-                    title={property.title}
-                    price={formatPrice(property.price)}
+                  <SharePropertyButton
+                    title={property.title ?? ""}
+                    price={formatPrice(property.price ?? 0)}
                   />
                 </div>
               </div>
@@ -153,8 +167,8 @@ export default async function PropertyPage({
                     aria-hidden="true"
                   />
                   <span>
-                    {property.address.street}, {property.address.city},{" "}
-                    {property.address.state}&nbsp;{property.address.zipCode}
+                    {property.address.street ?? ""}, {property.address.city ?? ""},{" "}
+                    {property.address.state ?? ""}&nbsp;{property.address.zipCode ?? ""}
                   </span>
                 </div>
               )}
@@ -169,26 +183,26 @@ export default async function PropertyPage({
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <StatBadge 
+              <StatBadge
                 icon={Bed}
-                value={property.bedrooms}
+                value={property.bedrooms ?? 0}
                 label="Bedrooms"
                 color="primary"
               />
-              <StatBadge 
+              <StatBadge
                 icon={Bath}
-                value={property.bathrooms}
+                value={property.bathrooms ?? 0}
                 label="Bathrooms"
                 color="secondary"
               />
-              <StatBadge 
+              <StatBadge
                 icon={Square}
-                value={property.squareFeet || 0}
+                value={property.squareFeet ?? 0}
                 label="Sq Ft"
                 color="primary"
               />
-              {property.yearBuilt && (
-                <StatBadge 
+              {property.yearBuilt != null && (
+                <StatBadge
                   icon={Calendar}
                   value={property.yearBuilt}
                   label="Year Built"
@@ -249,14 +263,16 @@ export default async function PropertyPage({
                 </CardHeader>
                 <CardContent className="p-0">
                   <div className="h-[400px]">
-                    <DynamicMapView 
-                      properties={[
+                  <DynamicMapView
+                    properties={
+                      [
                         {
                           ...property,
-                          slug: property.slug?.current || id
+                          slug: property.slug?.current ?? id
                         }
-                      ]}
-                    />
+                      ] as Property[]
+                    }
+                  />
                   </div>
                 </CardContent>
               </Card>
@@ -266,7 +282,7 @@ export default async function PropertyPage({
           <div className="lg:col-span-1">
             <div className="sticky top-24">
               {property.agent && (
-                <AgentCard agent={property.agent}>
+                <AgentCard agent={property.agent as import("@/types").Agent}>
                   <ContactAgentButton 
                     propertyId={property._id}
                     agentId={property.agent._id}

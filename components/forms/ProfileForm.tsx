@@ -23,7 +23,7 @@ const formSchema = z.object({
   phone: z.string().optional()
 })
 
-type formSchema = z.infer<typeof formSchema>
+type ProfileFormValues = z.infer<typeof formSchema>
 
 interface ProfileFormProps {
   user: User
@@ -32,15 +32,15 @@ interface ProfileFormProps {
 export function ProfileForm({ user }: ProfileFormProps) {
   const [isPending, startTransition] = useTransition()
 
-  const form = useForm<FormData>({
+  const form = useForm<ProfileFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValue: {
+    defaultValues: {
       name: user.name,
       phone: user.phone || ""
     }
   })
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: ProfileFormValues) => {
     startTransition(async () => {
       try {
         await updateUserProfile({
