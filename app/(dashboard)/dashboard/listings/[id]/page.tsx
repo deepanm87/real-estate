@@ -52,6 +52,13 @@ export default async function EditListingPage({
     notFound()
   }
 
+  const location =
+    listing.location != null &&
+    typeof listing.location.lat === "number" &&
+    typeof listing.location.lng === "number"
+      ? { lat: listing.location.lat, lng: listing.location.lng }
+      : undefined
+
   const normalizedListing = {
     _id: listing._id,
     title: listing.title ?? "",
@@ -64,7 +71,7 @@ export default async function EditListingPage({
     squareFeet: listing.squareFeet ?? 0,
     yearBuilt: listing.yearBuilt ?? undefined,
     address: listing.address ?? undefined,
-    location: listing.location ?? undefined,
+    location,
     amenities: listing.amenities ?? undefined,
     images: listing.images?.map((img) => ({
       asset: { _id: img.asset?._id ?? "", url: img.asset?.url ?? "" }
