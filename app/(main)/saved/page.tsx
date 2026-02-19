@@ -22,7 +22,7 @@ export default async function SavedListingsPage() {
   })
 
   return (
-    <div className="contianer py-16">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="flex items-center gap-3 mb-8">
         <Heart className="size-8 text-primary" />
         <h1 className="text-3xl font-bold">Saved Listings</h1>
